@@ -5,11 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
+import mmurawicz.catgenerator.R
 import mmurawicz.catgenerator.databinding.FragmentCatBinding
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
+
 class CatFragment : Fragment() {
 
     private val viewModel by viewModels<CatFragmentViewModel>()
@@ -25,6 +25,10 @@ class CatFragment : Fragment() {
     ): View {
 
         _binding = FragmentCatBinding.inflate(inflater, container, false)
+
+        setupTagsAdapter()
+        setupFiltersAdapter()
+
         return binding.root
 
     }
@@ -32,5 +36,18 @@ class CatFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setupTagsAdapter() {
+        val tags = resources.getStringArray(R.array.tags)
+        val tagsArrayAdapter = activity?.let { ArrayAdapter(it, R.layout.dropdown_item, tags) }
+        binding.actvTag.setAdapter(tagsArrayAdapter)
+    }
+
+    private fun setupFiltersAdapter() {
+        val filters = resources.getStringArray(R.array.filters)
+        val filtersArrayAdapter =
+            activity?.let { ArrayAdapter(it, R.layout.dropdown_item, filters) }
+        binding.actvFilter.setAdapter(filtersArrayAdapter)
     }
 }

@@ -1,4 +1,20 @@
 <resources>
-    <string name="app_name">Cat Generator</string>
-    <string name="cat_fragment_label">Cat fragment</string>
+    <string name="app_name">Generator kotów</string>
+    <string name="hint_tag">Wybierz tag</string>
+    <string name="hint_filter">Wybierz filtr</string>
+    <string name="checkbox_text_add">Dodaj tekst</string>
+    <string name="button_give">Daj mi kota</string>
+
+    <string-array name="tags">
+        <item>Losowy0</item>
+        <item>Losowy1</item>
+        <item>Losowy2</item>
+        <item>Losowy3</item>
+        <item>Losowy4</item>
+    </string-array>
+    <string-array name="filters">
+        <item>Brak0</item>
+        <item>Brak1</item>
+        <item>Brak2</item>
+    </string-array>
 </resources>

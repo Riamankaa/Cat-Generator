@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/CatFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/CatFragment"
         android:name="mmurawicz.catgenerator.ui.CatFragment"
-        android:label="@string/cat_fragment_label"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_cat">
 
     </fragment>

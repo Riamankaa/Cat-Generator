@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="space_small">16dp</dimen>
+    <dimen name="space_large">36dp</dimen>
+
+    <dimen name="corner_radius">10dp</dimen>
+
+    <dimen name="min_height_checkbox">48dp</dimen>
+</resources>
