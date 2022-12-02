@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Cat Generator</string>
+    <string name="cat_fragment_label">Cat fragment</string>
+</resources>
