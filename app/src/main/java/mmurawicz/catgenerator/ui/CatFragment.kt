@@ -1,6 +1,7 @@
 package mmurawicz.catgenerator.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,6 +65,9 @@ class CatFragment : Fragment() {
     private fun setupTagsAdapter(tags: List<String>) {
         val tagsArrayAdapter = activity?.let { ArrayAdapter(it, R.layout.dropdown_item, tags) }
         binding.actvTag.setAdapter(tagsArrayAdapter)
+        binding.actvTag.setOnItemClickListener { _, _, position, _ ->
+            viewModel.selectedTag = tags[position]
+        }
     }
 
     private fun setupFiltersAdapter() {
@@ -71,6 +75,9 @@ class CatFragment : Fragment() {
         val filtersArrayAdapter =
             activity?.let { ArrayAdapter(it, R.layout.dropdown_item, filter) }
         binding.actvFilter.setAdapter(filtersArrayAdapter)
+        binding.actvFilter.setOnItemClickListener { _, _, position, _ ->
+            viewModel.selectedFilter = FilterItems.list[position]
+        }
     }
 
     private fun setupColorsAdapter() {
@@ -84,7 +91,13 @@ class CatFragment : Fragment() {
     }
 
     private fun onButtonGiveClick() {
-        val imageUri = "https://cataas.com/cat"
+        var imageUri = if (viewModel.selectedTag != "") {
+            "https://cataas.com/cat/"
+        } else
+        {
+            "https://cataas.com/cat"
+        }
+        imageUri += viewModel.selectedTag + "?filter=" + viewModel.selectedFilter.filterName
         Picasso.with(context).load(imageUri).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(
             NetworkPolicy.NO_CACHE).into(binding.ivCat)
     }

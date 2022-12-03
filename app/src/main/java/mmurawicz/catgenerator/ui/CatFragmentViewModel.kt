@@ -17,6 +17,9 @@ class CatFragmentViewModel : ViewModel() {
     var descriptionSize : MutableLiveData<Int> = MutableLiveData()
     var descriptionColor : MutableLiveData<Int> = MutableLiveData(R.color.white)
 
+    var selectedTag : String = ""
+    var selectedFilter : FilterItem = FilterItems.list[0]
+
     fun updateDescriptionConfigVisibility() {
         descriptionConfigVisibility.value = if (descriptionConfigVisibility.value == View.GONE) {
             View.VISIBLE

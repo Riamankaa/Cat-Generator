@@ -13,10 +13,11 @@
     <string name="color_red">Czerwony</string>
     <string name="color_yellow">Żółty</string>
 
-    <string name="filter_blur">Blur</string>
+    <string name="filter_no">Brak</string>
+    <string name="filter_blur">Rozmycie</string>
     <string name="filter_mono">Mono</string>
     <string name="filter_sepia">Sepia</string>
-    <string name="filter_negative">Negative</string>
+    <string name="filter_negative">Negatyw</string>
     <string name="filter_paint">Paint</string>
     <string name="filter_pixel">Pixel</string>
 </resources>
