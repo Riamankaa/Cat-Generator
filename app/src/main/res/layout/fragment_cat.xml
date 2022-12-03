@@ -5,7 +5,7 @@
     tools:context=".ui.CatFragment">
 
     <data>
-
+        <import type="androidx.core.content.ContextCompat" />
         <variable
             name="vm"
             type="mmurawicz.catgenerator.ui.CatFragmentViewModel" />
@@ -37,6 +37,18 @@
                     android:layout_height="match_parent"
                     android:contentDescription="@null"
                     android:src="@color/purple_500" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_small"
+                    android:gravity="center_horizontal"
+                    android:text="@{vm.descriptionText}"
+                    android:textColor="@{ContextCompat.getColor(context, vm.descriptionColor)}"
+                    android:textSize="@{vm.descriptionSize}"
+                    android:textStyle="bold"
+                    tools:text="Szary kot na szarym tle..." />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -114,7 +126,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/cbx_add_text">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/userIDTextInputEditText"
+                    android:id="@+id/tiet_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>

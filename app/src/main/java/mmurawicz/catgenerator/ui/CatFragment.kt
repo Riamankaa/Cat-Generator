@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.android.material.slider.Slider
 import mmurawicz.catgenerator.R
 import mmurawicz.catgenerator.databinding.FragmentCatBinding
 
@@ -32,6 +34,17 @@ class CatFragment : Fragment() {
         setupFiltersAdapter()
         setupColorsAdapter()
 
+        binding.tietDescription.doOnTextChanged { text, _, _, _ ->
+            viewModel.updateDescriptionText(
+                text.toString()
+            )
+        }
+        binding.slrSize.addOnChangeListener(Slider.OnChangeListener { _, value, _ ->
+            viewModel.updateDescriptionSize(
+                value.toInt()
+            )
+        })
+
         return binding.root
 
     }
@@ -55,9 +68,12 @@ class CatFragment : Fragment() {
     }
 
     private fun setupColorsAdapter() {
-        val colors = resources.getStringArray(R.array.colors)
+        val colors = ColorItems.list.map { colorItem -> resources.getString(colorItem.text) }
         val colorsArrayAdapter =
             activity?.let { ArrayAdapter(it, R.layout.dropdown_item, colors) }
         binding.actvColor.setAdapter(colorsArrayAdapter)
+        binding.actvColor.setOnItemClickListener { _, _, position, _ ->
+            viewModel.updateDescriptionColor(ColorItems.list[position].color)
+        }
     }
 }
