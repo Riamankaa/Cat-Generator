@@ -5,12 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.google.android.material.slider.Slider
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
+import com.squareup.picasso.Picasso
 import mmurawicz.catgenerator.R
 import mmurawicz.catgenerator.databinding.FragmentCatBinding
+import mmurawicz.catgenerator.utils.Status
 
 class CatFragment : Fragment() {
 
@@ -30,7 +36,6 @@ class CatFragment : Fragment() {
         binding.vm = viewModel
         binding.lifecycleOwner = this
 
-        setupTagsAdapter()
         setupFiltersAdapter()
         setupColorsAdapter()
 
@@ -44,6 +49,8 @@ class CatFragment : Fragment() {
                 value.toInt()
             )
         })
+        binding.btnGive.setOnClickListener { onButtonGiveClick() }
+        setupObservers()
 
         return binding.root
 
@@ -54,16 +61,15 @@ class CatFragment : Fragment() {
         _binding = null
     }
 
-    private fun setupTagsAdapter() {
-        val tags = resources.getStringArray(R.array.tags)
+    private fun setupTagsAdapter(tags: List<String>) {
         val tagsArrayAdapter = activity?.let { ArrayAdapter(it, R.layout.dropdown_item, tags) }
         binding.actvTag.setAdapter(tagsArrayAdapter)
     }
 
     private fun setupFiltersAdapter() {
-        val filters = resources.getStringArray(R.array.filters)
+        val filter = FilterItems.list.map { filterItem -> resources.getString(filterItem.text) }
         val filtersArrayAdapter =
-            activity?.let { ArrayAdapter(it, R.layout.dropdown_item, filters) }
+            activity?.let { ArrayAdapter(it, R.layout.dropdown_item, filter) }
         binding.actvFilter.setAdapter(filtersArrayAdapter)
     }
 
@@ -75,5 +81,26 @@ class CatFragment : Fragment() {
         binding.actvColor.setOnItemClickListener { _, _, position, _ ->
             viewModel.updateDescriptionColor(ColorItems.list[position].color)
         }
+    }
+
+    private fun onButtonGiveClick() {
+        val imageUri = "https://cataas.com/cat"
+        Picasso.with(context).load(imageUri).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(
+            NetworkPolicy.NO_CACHE).into(binding.ivCat)
+    }
+
+    private fun setupObservers() {
+        viewModel.getTags().observe(viewLifecycleOwner, Observer {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        resource.data?.let { data -> setupTagsAdapter(data) }
+                    }
+                    Status.ERROR -> {
+                        Toast.makeText(activity, "Nie udało się pobrać dostępnych tagów.", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        })
     }
 }

@@ -13,16 +13,10 @@
     <string name="color_red">Czerwony</string>
     <string name="color_yellow">Żółty</string>
 
-    <string-array name="tags">
-        <item>Losowy0</item>
-        <item>Losowy1</item>
-        <item>Losowy2</item>
-        <item>Losowy3</item>
-        <item>Losowy4</item>
-    </string-array>
-    <string-array name="filters">
-        <item>Brak0</item>
-        <item>Brak1</item>
-        <item>Brak2</item>
-    </string-array>
+    <string name="filter_blur">Blur</string>
+    <string name="filter_mono">Mono</string>
+    <string name="filter_sepia">Sepia</string>
+    <string name="filter_negative">Negative</string>
+    <string name="filter_paint">Paint</string>
+    <string name="filter_pixel">Pixel</string>
 </resources>
