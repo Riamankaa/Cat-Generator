@@ -1,11 +1,11 @@
 package mmurawicz.catgenerator.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import mmurawicz.catgenerator.R
 import mmurawicz.catgenerator.databinding.FragmentCatBinding
@@ -25,9 +25,12 @@ class CatFragment : Fragment() {
     ): View {
 
         _binding = FragmentCatBinding.inflate(inflater, container, false)
+        binding.vm = viewModel
+        binding.lifecycleOwner = this
 
         setupTagsAdapter()
         setupFiltersAdapter()
+        setupColorsAdapter()
 
         return binding.root
 
@@ -49,5 +52,12 @@ class CatFragment : Fragment() {
         val filtersArrayAdapter =
             activity?.let { ArrayAdapter(it, R.layout.dropdown_item, filters) }
         binding.actvFilter.setAdapter(filtersArrayAdapter)
+    }
+
+    private fun setupColorsAdapter() {
+        val colors = resources.getStringArray(R.array.colors)
+        val colorsArrayAdapter =
+            activity?.let { ArrayAdapter(it, R.layout.dropdown_item, colors) }
+        binding.actvColor.setAdapter(colorsArrayAdapter)
     }
 }

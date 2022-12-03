@@ -3,6 +3,8 @@
     <string name="hint_tag">Wybierz tag</string>
     <string name="hint_filter">Wybierz filtr</string>
     <string name="checkbox_text_add">Dodaj tekst</string>
+    <string name="hint_description">Opis</string>
+    <string name="hint_color">Kolor</string>
     <string name="button_give">Daj mi kota</string>
 
     <string-array name="tags">
@@ -16,5 +18,12 @@
         <item>Brak0</item>
         <item>Brak1</item>
         <item>Brak2</item>
+    </string-array>
+    <string-array name="colors">
+        <item>Czarny</item>
+        <item>Biały</item>
+        <item>Niebieski</item>
+        <item>Czerwony</item>
+        <item>Żółty</item>
     </string-array>
 </resources>
