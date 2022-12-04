@@ -17,7 +17,7 @@ class CatFragmentViewModel : ViewModel() {
     var descriptionSize: MutableLiveData<Int> = MutableLiveData(15)
     var descriptionColor: MutableLiveData<Int> = MutableLiveData(ColorItems.list[0].color)
 
-    lateinit var selectedTag: String
+    var selectedTag: String = String()
     var selectedFilter: FilterItem = FilterItems.list[0]
 
     fun updateDescriptionVisibility() {

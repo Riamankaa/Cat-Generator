@@ -10,7 +10,7 @@
     <string name="size_value_from">0</string>
     <string name="size_value_to">60</string>
 
-    <string name="get_tags_error">Nie udało się pobrać dostępnych tagów.</string>
+    <string name="connection_error">Błąd połączenia.</string>
 
     <string name="color_white">Biały</string>
     <string name="color_black">Czarny</string>

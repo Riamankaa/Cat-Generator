@@ -1,6 +1,7 @@
 package mmurawicz.catgenerator.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.slider.Slider
+import com.squareup.picasso.Callback
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
@@ -48,8 +50,9 @@ class CatFragment : Fragment() {
                 value.toInt()
             )
         })
-        binding.btnGive.setOnClickListener { onButtonGiveClick() }
+        binding.btnGive.setOnClickListener { loadImage() }
         setupObservers()
+        loadImage()
 
         return binding.root
 
@@ -92,11 +95,21 @@ class CatFragment : Fragment() {
         binding.actvColor.setText(resources.getString(ColorItems.list[0].text), false)
     }
 
-    private fun onButtonGiveClick() {
+    private fun loadImage() {
         Picasso.with(context).load(viewModel.getImageUrl()).memoryPolicy(MemoryPolicy.NO_CACHE)
             .networkPolicy(
                 NetworkPolicy.NO_CACHE
-            ).into(binding.ivCat)
+            ).into(binding.ivCat, object: Callback {
+                override fun onSuccess() {
+                }
+                override fun onError() {
+                    Toast.makeText(
+                        activity,
+                        R.string.connection_error,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            })
     }
 
     private fun setupObservers() {
@@ -109,7 +122,7 @@ class CatFragment : Fragment() {
                     Status.ERROR -> {
                         Toast.makeText(
                             activity,
-                            R.string.get_tags_error,
+                            R.string.connection_error,
                             Toast.LENGTH_LONG
                         ).show()
                     }
