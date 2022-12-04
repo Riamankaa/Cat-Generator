@@ -1,7 +1,6 @@
 package mmurawicz.catgenerator.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.google.android.material.slider.Slider
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
@@ -107,7 +105,7 @@ class CatFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        viewModel.getTags().observe(viewLifecycleOwner, Observer {
+        viewModel.getTags().observe(viewLifecycleOwner) {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -122,6 +120,6 @@ class CatFragment : Fragment() {
                     }
                 }
             }
-        })
+        }
     }
 }
