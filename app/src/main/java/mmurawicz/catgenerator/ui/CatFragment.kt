@@ -1,6 +1,7 @@
 package mmurawicz.catgenerator.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -96,13 +97,16 @@ class CatFragment : Fragment() {
     }
 
     private fun loadImage() {
+        viewModel.showImageLoading()
         Picasso.with(context).load(viewModel.getImageUrl()).memoryPolicy(MemoryPolicy.NO_CACHE)
             .networkPolicy(
                 NetworkPolicy.NO_CACHE
             ).into(binding.ivCat, object: Callback {
                 override fun onSuccess() {
+                    viewModel.showImageNotLoading()
                 }
                 override fun onError() {
+                    viewModel.showImageNotLoading()
                     Toast.makeText(
                         activity,
                         R.string.connection_error,

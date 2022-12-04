@@ -13,9 +13,11 @@ import mmurawicz.catgenerator.utils.Resource
 
 class CatFragmentViewModel : ViewModel() {
     var descriptionVisibility: MutableLiveData<Int> = MutableLiveData(View.GONE)
+    var progressIndicatorVisibility: MutableLiveData<Int> = MutableLiveData(View.INVISIBLE)
     var descriptionText: MutableLiveData<String> = MutableLiveData()
     var descriptionSize: MutableLiveData<Int> = MutableLiveData(15)
     var descriptionColor: MutableLiveData<Int> = MutableLiveData(ColorItems.list[0].color)
+    var isButtonGiveEnabled: MutableLiveData<Boolean> = MutableLiveData(true)
 
     var selectedTag: String = String()
     var selectedFilter: FilterItem = FilterItems.list[0]
@@ -57,5 +59,15 @@ class CatFragmentViewModel : ViewModel() {
             emptyName
         }}
         return processedTags
+    }
+
+    fun showImageLoading(){
+        isButtonGiveEnabled.value = false
+        progressIndicatorVisibility.value = View.VISIBLE
+    }
+
+    fun showImageNotLoading(){
+        isButtonGiveEnabled.value = true
+        progressIndicatorVisibility.value = View.INVISIBLE
     }
 }
