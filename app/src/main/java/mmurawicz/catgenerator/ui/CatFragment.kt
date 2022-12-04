@@ -1,7 +1,6 @@
 package mmurawicz.catgenerator.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +16,7 @@ import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import mmurawicz.catgenerator.R
 import mmurawicz.catgenerator.databinding.FragmentCatBinding
+import mmurawicz.catgenerator.utils.Resource
 import mmurawicz.catgenerator.utils.Status
 
 class CatFragment : Fragment() {
@@ -37,22 +37,7 @@ class CatFragment : Fragment() {
         binding.vm = viewModel
         binding.lifecycleOwner = this
 
-        setupFiltersAdapter()
-        setupColorsAdapter()
-
-        binding.tietDescription.doOnTextChanged { text, _, _, _ ->
-            viewModel.updateDescriptionText(
-                text.toString()
-            )
-        }
-        binding.slrSize.addOnChangeListener(Slider.OnChangeListener { _, value, _ ->
-            viewModel.updateDescriptionSize(
-                value.toInt()
-            )
-        })
-        binding.btnGive.setOnClickListener { loadImage() }
-        setupObservers()
-        loadImage()
+        setupViews()
 
         return binding.root
 
@@ -63,37 +48,68 @@ class CatFragment : Fragment() {
         _binding = null
     }
 
-    private fun setupTagsAdapter(tags: List<String>) {
-        val processedTags = viewModel.getProcessedTags(tags, resources.getString(R.string.tag_random))
-        val tagsArrayAdapter = activity?.let { ArrayAdapter(it, R.layout.dropdown_item, processedTags) }
-        binding.actvTag.setAdapter(tagsArrayAdapter)
-        binding.actvTag.setOnItemClickListener { _, _, position, _ ->
-            viewModel.selectedTag = tags[position]
-        }
-        binding.actvTag.setText(processedTags[0], false)
-        viewModel.selectedTag = tags[0]
+    private fun setupViews() {
+        setupFilters()
+        setupColors()
+        setupDescription()
+        setupSliderSize()
+        setupButtonGive()
+        setupGetTagsObserver()
+        loadImage()
     }
 
-    private fun setupFiltersAdapter() {
+    private fun setupFilters() {
         val filter = FilterItems.list.map { filterItem -> resources.getString(filterItem.text) }
         val filtersArrayAdapter =
             activity?.let { ArrayAdapter(it, R.layout.dropdown_item, filter) }
         binding.actvFilter.setAdapter(filtersArrayAdapter)
+
         binding.actvFilter.setOnItemClickListener { _, _, position, _ ->
-            viewModel.selectedFilter = FilterItems.list[position]
+            viewModel.setSelectedFilter(position)
         }
-        binding.actvFilter.setText(resources.getString(FilterItems.list[0].text), false)
+
+        setDefaultFilter()
     }
 
-    private fun setupColorsAdapter() {
+    private fun setDefaultFilter() {
+        binding.actvFilter.setText(resources.getString(viewModel.getDefaultFilterText()), false)
+    }
+
+    private fun setupColors() {
         val colors = ColorItems.list.map { colorItem -> resources.getString(colorItem.text) }
         val colorsArrayAdapter =
             activity?.let { ArrayAdapter(it, R.layout.dropdown_item, colors) }
         binding.actvColor.setAdapter(colorsArrayAdapter)
+
         binding.actvColor.setOnItemClickListener { _, _, position, _ ->
-            viewModel.updateDescriptionColor(ColorItems.list[position].color)
+            viewModel.updateDescriptionColor(position)
         }
-        binding.actvColor.setText(resources.getString(ColorItems.list[0].text), false)
+
+        setDefaultColor()
+    }
+
+    private fun setDefaultColor() {
+        binding.actvColor.setText(resources.getString(viewModel.getDefaultColorText()), false)
+    }
+
+    private fun setupDescription() {
+        binding.tietDescription.doOnTextChanged { text, _, _, _ ->
+            viewModel.updateDescriptionText(
+                text.toString()
+            )
+        }
+    }
+
+    private fun setupSliderSize() {
+        binding.slrSize.addOnChangeListener(Slider.OnChangeListener { _, value, _ ->
+            viewModel.updateDescriptionSize(
+                value
+            )
+        })
+    }
+
+    private fun setupButtonGive() {
+        binding.btnGive.setOnClickListener { loadImage() }
     }
 
     private fun loadImage() {
@@ -101,37 +117,77 @@ class CatFragment : Fragment() {
         Picasso.with(context).load(viewModel.getImageUrl()).memoryPolicy(MemoryPolicy.NO_CACHE)
             .networkPolicy(
                 NetworkPolicy.NO_CACHE
-            ).into(binding.ivCat, object: Callback {
+            ).into(binding.ivCat, object : Callback {
                 override fun onSuccess() {
-                    viewModel.showImageNotLoading()
+                    onLoadImageResponseSuccess()
                 }
+
                 override fun onError() {
-                    viewModel.showImageNotLoading()
-                    Toast.makeText(
-                        activity,
-                        R.string.connection_error,
-                        Toast.LENGTH_LONG
-                    ).show()
+                    onLoadImageResponseError()
                 }
             })
     }
 
-    private fun setupObservers() {
+    private fun onLoadImageResponseSuccess() {
+        viewModel.hideImageLoading()
+    }
+
+    private fun onLoadImageResponseError() {
+        viewModel.hideImageLoading()
+        Toast.makeText(
+            activity,
+            R.string.connection_error,
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
+    private fun setupGetTagsObserver() {
         viewModel.getTags().observe(viewLifecycleOwner) {
-            it?.let { resource ->
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        resource.data?.let { data -> setupTagsAdapter(data) }
-                    }
-                    Status.ERROR -> {
-                        Toast.makeText(
-                            activity,
-                            R.string.connection_error,
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                }
+            it?.let {
+                processTagsStatus(it)
             }
         }
+    }
+
+    private fun processTagsStatus(resource: Resource<List<String>>) {
+        when (resource.status) {
+            Status.SUCCESS -> {
+                onGetTagResponseSuccess(resource)
+            }
+            Status.ERROR -> {
+                onGetTagResponseError()
+            }
+        }
+    }
+
+    private fun onGetTagResponseSuccess(resource: Resource<List<String>>) {
+        resource.data?.let { data -> setupTags(data) }
+    }
+
+    private fun setupTags(tags: List<String>) {
+        viewModel.tags = tags
+        viewModel.processTags(resources.getString(R.string.tag_random))
+        val tagsArrayAdapter =
+            activity?.let { ArrayAdapter(it, R.layout.dropdown_item, viewModel.processedTags) }
+        binding.actvTag.setAdapter(tagsArrayAdapter)
+
+        binding.actvTag.setOnItemClickListener { _, _, position, _ ->
+            viewModel.setSelectedTag(position)
+        }
+
+        setDefaultTag()
+    }
+
+    private fun setDefaultTag() {
+        binding.actvTag.setText(viewModel.getDefaultProcessedTag(), false)
+        viewModel.setDefaultTagSelected()
+    }
+
+    private fun onGetTagResponseError() {
+        Toast.makeText(
+            activity,
+            R.string.connection_error,
+            Toast.LENGTH_LONG
+        ).show()
     }
 }

@@ -46,7 +46,7 @@
                     android:layout_marginTop="@dimen/space_small"
                     android:gravity="center_horizontal"
                     android:text="@{vm.descriptionText}"
-                    android:textColor="@{ContextCompat.getColor(context, vm.descriptionColor)}"
+                    android:textColor="@{ContextCompat.getColor(context, vm.selectedColor)}"
                     android:textSize="@{vm.descriptionSize}"
                     android:textStyle="bold"
                     android:visibility="@{vm.descriptionVisibility}"
