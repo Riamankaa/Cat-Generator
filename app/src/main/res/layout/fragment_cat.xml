@@ -5,7 +5,9 @@
     tools:context=".ui.CatFragment">
 
     <data>
+
         <import type="androidx.core.content.ContextCompat" />
+
         <variable
             name="vm"
             type="mmurawicz.catgenerator.ui.CatFragmentViewModel" />
@@ -35,8 +37,7 @@
                     android:id="@+id/iv_cat"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:contentDescription="@null"
-                    android:src="@color/purple_500" />
+                    android:contentDescription="@null" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_description"
@@ -132,19 +133,43 @@
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_size_value_from"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_small"
+                android:text="0"
+                android:visibility="@{vm.descriptionVisibility}"
+                app:layout_constraintBottom_toBottomOf="@+id/slr_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/slr_size" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_size_value_to"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/space_small"
+                android:text="60"
+                android:visibility="@{vm.descriptionVisibility}"
+                app:layout_constraintBottom_toBottomOf="@+id/slr_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/slr_size" />
+
             <com.google.android.material.slider.Slider
                 android:id="@+id/slr_size"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_large"
                 android:stepSize="1"
+                android:value="15"
                 android:valueFrom="0"
                 android:valueTo="60"
-                android:value="15"
                 android:visibility="@{vm.descriptionVisibility}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/til_description" />
+                app:labelStyle="@style/tooltip"
+                app:layout_constraintEnd_toStartOf="@+id/tv_size_value_to"
+                app:layout_constraintStart_toEndOf="@+id/tv_size_value_from"
+                app:layout_constraintTop_toBottomOf="@+id/til_description"
+                app:tickVisible="false" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_color"
@@ -157,7 +182,7 @@
                 android:visibility="@{vm.descriptionVisibility}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/slr_size">
+                app:layout_constraintTop_toBottomOf="@+id/tv_size_value_from">
 
                 <AutoCompleteTextView
                     android:id="@+id/actv_color"
