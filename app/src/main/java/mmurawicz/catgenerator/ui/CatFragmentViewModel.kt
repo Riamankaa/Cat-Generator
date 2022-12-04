@@ -51,4 +51,11 @@ class CatFragmentViewModel : ViewModel() {
     fun getImageUrl(): String {
         return PicassoUrlBuilder.getImageUrl(selectedTag, selectedFilter.filterName)
     }
+
+    fun getProcessedTags(tags: List<String>, emptyName: String): List<String> {
+        val processedTags = tags.map {it.ifEmpty {
+            emptyName
+        }}
+        return processedTags
+    }
 }

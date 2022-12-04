@@ -26,4 +26,6 @@
     <string name="filter_negative">Negatyw</string>
     <string name="filter_paint">Paint</string>
     <string name="filter_pixel">Pixel</string>
+
+    <string name="tag_random">Losowy</string>
 </resources>

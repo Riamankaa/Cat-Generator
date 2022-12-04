@@ -1,7 +1,6 @@
 package mmurawicz.catgenerator.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,12 +63,13 @@ class CatFragment : Fragment() {
     }
 
     private fun setupTagsAdapter(tags: List<String>) {
-        val tagsArrayAdapter = activity?.let { ArrayAdapter(it, R.layout.dropdown_item, tags) }
+        val processedTags = viewModel.getProcessedTags(tags, resources.getString(R.string.tag_random))
+        val tagsArrayAdapter = activity?.let { ArrayAdapter(it, R.layout.dropdown_item, processedTags) }
         binding.actvTag.setAdapter(tagsArrayAdapter)
         binding.actvTag.setOnItemClickListener { _, _, position, _ ->
             viewModel.selectedTag = tags[position]
         }
-        binding.actvTag.setText(tags[0], false)
+        binding.actvTag.setText(processedTags[0], false)
         viewModel.selectedTag = tags[0]
     }
 
