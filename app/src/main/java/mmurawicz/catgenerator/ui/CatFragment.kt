@@ -93,15 +93,10 @@ class CatFragment : Fragment() {
     }
 
     private fun onButtonGiveClick() {
-        var imageUri = if (viewModel.selectedTag != "") {
-            "https://cataas.com/cat/"
-        } else {
-            "https://cataas.com/cat"
-        }
-        imageUri += viewModel.selectedTag + "?filter=" + viewModel.selectedFilter.filterName
-        Picasso.with(context).load(imageUri).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(
-            NetworkPolicy.NO_CACHE
-        ).into(binding.ivCat)
+        Picasso.with(context).load(viewModel.getImageUrl()).memoryPolicy(MemoryPolicy.NO_CACHE)
+            .networkPolicy(
+                NetworkPolicy.NO_CACHE
+            ).into(binding.ivCat)
     }
 
     private fun setupObservers() {

@@ -7,17 +7,18 @@ import androidx.lifecycle.liveData
 import kotlinx.coroutines.Dispatchers
 import mmurawicz.catgenerator.network.ApiHelper
 import mmurawicz.catgenerator.network.CataasRepository
+import mmurawicz.catgenerator.network.PicassoUrlBuilder
 import mmurawicz.catgenerator.network.RetrofitBuilder
 import mmurawicz.catgenerator.utils.Resource
 
 class CatFragmentViewModel : ViewModel() {
-    var descriptionVisibility : MutableLiveData<Int> = MutableLiveData(View.GONE)
-    var descriptionText : MutableLiveData<String> = MutableLiveData()
-    var descriptionSize : MutableLiveData<Int> = MutableLiveData(15)
-    var descriptionColor : MutableLiveData<Int> = MutableLiveData(ColorItems.list[0].color)
+    var descriptionVisibility: MutableLiveData<Int> = MutableLiveData(View.GONE)
+    var descriptionText: MutableLiveData<String> = MutableLiveData()
+    var descriptionSize: MutableLiveData<Int> = MutableLiveData(15)
+    var descriptionColor: MutableLiveData<Int> = MutableLiveData(ColorItems.list[0].color)
 
-    lateinit var selectedTag : String
-    var selectedFilter : FilterItem = FilterItems.list[0]
+    lateinit var selectedTag: String
+    var selectedFilter: FilterItem = FilterItems.list[0]
 
     fun updateDescriptionVisibility() {
         descriptionVisibility.value = if (descriptionVisibility.value == View.GONE) {
@@ -45,5 +46,9 @@ class CatFragmentViewModel : ViewModel() {
         } catch (exception: Exception) {
             emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
         }
+    }
+
+    fun getImageUrl(): String {
+        return PicassoUrlBuilder.getImageUrl(selectedTag, selectedFilter.filterName)
     }
 }
