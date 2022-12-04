@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.slider.Slider
 import com.squareup.picasso.Callback
 import com.squareup.picasso.MemoryPolicy
@@ -16,12 +18,14 @@ import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import mmurawicz.catgenerator.R
 import mmurawicz.catgenerator.databinding.FragmentCatBinding
+import mmurawicz.catgenerator.network.ApiHelper
+import mmurawicz.catgenerator.network.RetrofitBuilder
 import mmurawicz.catgenerator.utils.Resource
 import mmurawicz.catgenerator.utils.Status
 
 class CatFragment : Fragment() {
 
-    private val viewModel by viewModels<CatFragmentViewModel>()
+    private lateinit var viewModel: CatFragmentViewModel
     private var _binding: FragmentCatBinding? = null
 
     // This property is only valid between onCreateView and
@@ -33,6 +37,10 @@ class CatFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
+        viewModel = ViewModelProvider(
+            this,
+            ViewModelFactory(ApiHelper(RetrofitBuilder.apiService))
+        )[CatFragmentViewModel::class.java]
         _binding = FragmentCatBinding.inflate(inflater, container, false)
         binding.vm = viewModel
         binding.lifecycleOwner = this

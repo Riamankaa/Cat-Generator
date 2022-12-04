@@ -5,13 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import kotlinx.coroutines.Dispatchers
-import mmurawicz.catgenerator.network.ApiHelper
 import mmurawicz.catgenerator.network.CataasRepository
 import mmurawicz.catgenerator.network.PicassoUrlBuilder
-import mmurawicz.catgenerator.network.RetrofitBuilder
 import mmurawicz.catgenerator.utils.Resource
 
-class CatFragmentViewModel : ViewModel() {
+class CatFragmentViewModel(private val cataasRepository: CataasRepository) : ViewModel() {
     var descriptionVisibility: MutableLiveData<Int> = MutableLiveData(View.GONE)
     var progressIndicatorVisibility: MutableLiveData<Int> = MutableLiveData(View.INVISIBLE)
     var descriptionText: MutableLiveData<String> = MutableLiveData()
@@ -22,8 +20,8 @@ class CatFragmentViewModel : ViewModel() {
 
     lateinit var tags: List<String>
     lateinit var processedTags: List<String>
-    var selectedTag: String = String()
-    var selectedFilter: FilterItem = FilterItems.list[DEFAULT_ITEM_INDEX]
+    private var selectedTag: String = String()
+    private var selectedFilter: FilterItem = FilterItems.list[DEFAULT_ITEM_INDEX]
 
     fun updateDescriptionVisibility() {
         descriptionVisibility.value = if (descriptionVisibility.value == View.GONE) {
@@ -59,7 +57,7 @@ class CatFragmentViewModel : ViewModel() {
 
     fun getTags() = liveData(Dispatchers.IO) {
         try {
-            emit(Resource.success(data = CataasRepository(ApiHelper(RetrofitBuilder.apiService)).getTags()))
+            emit(Resource.success(data = cataasRepository.getTags()))
         } catch (exception: Exception) {
             emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
         }
