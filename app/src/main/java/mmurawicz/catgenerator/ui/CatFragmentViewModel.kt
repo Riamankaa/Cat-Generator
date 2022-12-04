@@ -5,23 +5,22 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import kotlinx.coroutines.Dispatchers
-import mmurawicz.catgenerator.R
 import mmurawicz.catgenerator.network.ApiHelper
 import mmurawicz.catgenerator.network.CataasRepository
 import mmurawicz.catgenerator.network.RetrofitBuilder
 import mmurawicz.catgenerator.utils.Resource
 
 class CatFragmentViewModel : ViewModel() {
-    var descriptionConfigVisibility : MutableLiveData<Int> = MutableLiveData(View.GONE)
+    var descriptionVisibility : MutableLiveData<Int> = MutableLiveData(View.GONE)
     var descriptionText : MutableLiveData<String> = MutableLiveData()
-    var descriptionSize : MutableLiveData<Int> = MutableLiveData()
-    var descriptionColor : MutableLiveData<Int> = MutableLiveData(R.color.white)
+    var descriptionSize : MutableLiveData<Int> = MutableLiveData(15)
+    var descriptionColor : MutableLiveData<Int> = MutableLiveData(ColorItems.list[0].color)
 
-    var selectedTag : String = ""
+    lateinit var selectedTag : String
     var selectedFilter : FilterItem = FilterItems.list[0]
 
-    fun updateDescriptionConfigVisibility() {
-        descriptionConfigVisibility.value = if (descriptionConfigVisibility.value == View.GONE) {
+    fun updateDescriptionVisibility() {
+        descriptionVisibility.value = if (descriptionVisibility.value == View.GONE) {
             View.VISIBLE
         } else {
             View.GONE

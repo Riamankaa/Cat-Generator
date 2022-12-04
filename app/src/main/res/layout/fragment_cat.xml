@@ -48,6 +48,7 @@
                     android:textColor="@{ContextCompat.getColor(context, vm.descriptionColor)}"
                     android:textSize="@{vm.descriptionSize}"
                     android:textStyle="bold"
+                    android:visibility="@{vm.descriptionVisibility}"
                     tools:text="Szary kot na szarym tle..." />
 
             </com.google.android.material.card.MaterialCardView>
@@ -107,7 +108,7 @@
                 android:layout_marginStart="@dimen/space_small"
                 android:layout_marginTop="@dimen/space_large"
                 android:minHeight="@dimen/min_height_checkbox"
-                android:onCheckedChanged="@{()-> vm.updateDescriptionConfigVisibility()}"
+                android:onCheckedChanged="@{()-> vm.updateDescriptionVisibility()}"
                 android:text="@string/checkbox_text_add"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/til_filter" />
@@ -120,7 +121,7 @@
                 android:layout_marginHorizontal="@dimen/space_small"
                 android:layout_marginTop="@dimen/space_large"
                 android:hint="@string/hint_description"
-                android:visibility="@{vm.descriptionConfigVisibility}"
+                android:visibility="@{vm.descriptionVisibility}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cbx_add_text">
@@ -139,7 +140,8 @@
                 android:stepSize="1"
                 android:valueFrom="0"
                 android:valueTo="60"
-                android:visibility="@{vm.descriptionConfigVisibility}"
+                android:value="15"
+                android:visibility="@{vm.descriptionVisibility}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/til_description" />
@@ -152,7 +154,7 @@
                 android:layout_marginHorizontal="@dimen/space_small"
                 android:layout_marginTop="@dimen/space_large"
                 android:hint="@string/hint_color"
-                android:visibility="@{vm.descriptionConfigVisibility}"
+                android:visibility="@{vm.descriptionVisibility}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/slr_size">

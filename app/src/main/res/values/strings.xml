@@ -7,6 +7,8 @@
     <string name="hint_color">Kolor</string>
     <string name="button_give">Daj mi kota</string>
 
+    <string name="get_tags_error">Nie udało się pobrać dostępnych tagów.</string>
+
     <string name="color_white">Biały</string>
     <string name="color_black">Czarny</string>
     <string name="color_blue">Niebieski</string>

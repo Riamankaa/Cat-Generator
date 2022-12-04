@@ -68,6 +68,8 @@ class CatFragment : Fragment() {
         binding.actvTag.setOnItemClickListener { _, _, position, _ ->
             viewModel.selectedTag = tags[position]
         }
+        binding.actvTag.setText(tags[0], false)
+        viewModel.selectedTag = tags[0]
     }
 
     private fun setupFiltersAdapter() {
@@ -78,6 +80,7 @@ class CatFragment : Fragment() {
         binding.actvFilter.setOnItemClickListener { _, _, position, _ ->
             viewModel.selectedFilter = FilterItems.list[position]
         }
+        binding.actvFilter.setText(resources.getString(FilterItems.list[0].text), false)
     }
 
     private fun setupColorsAdapter() {
@@ -88,18 +91,19 @@ class CatFragment : Fragment() {
         binding.actvColor.setOnItemClickListener { _, _, position, _ ->
             viewModel.updateDescriptionColor(ColorItems.list[position].color)
         }
+        binding.actvColor.setText(resources.getString(ColorItems.list[0].text), false)
     }
 
     private fun onButtonGiveClick() {
         var imageUri = if (viewModel.selectedTag != "") {
             "https://cataas.com/cat/"
-        } else
-        {
+        } else {
             "https://cataas.com/cat"
         }
         imageUri += viewModel.selectedTag + "?filter=" + viewModel.selectedFilter.filterName
         Picasso.with(context).load(imageUri).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(
-            NetworkPolicy.NO_CACHE).into(binding.ivCat)
+            NetworkPolicy.NO_CACHE
+        ).into(binding.ivCat)
     }
 
     private fun setupObservers() {
@@ -110,7 +114,11 @@ class CatFragment : Fragment() {
                         resource.data?.let { data -> setupTagsAdapter(data) }
                     }
                     Status.ERROR -> {
-                        Toast.makeText(activity, "Nie udało się pobrać dostępnych tagów.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            activity,
+                            R.string.get_tags_error,
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
             }
