@@ -5,7 +5,11 @@
     <color name="grey_dark">#FF121212</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="blue">#FF0000FF</color>
-    <color name="red">#FFFF0000</color>
-    <color name="yellow">#FFFFFF00</color>
+
+    <color name="violet_catnip">#FFDBB0EF</color>
+    <color name="orange_salmon">#FFFA8072</color>
+    <color name="grey_mousey">#FF969E9E</color>
+    <color name="red_laser">#FFD4213D</color>
+    <color name="brown_cartoon">#FF806C51</color>
+    <color name="white_milky">#FFFDFFF5</color>
 </resources>

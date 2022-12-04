@@ -12,11 +12,12 @@
 
     <string name="connection_error">Błąd połączenia.</string>
 
-    <string name="color_white">Biały</string>
-    <string name="color_black">Czarny</string>
-    <string name="color_blue">Niebieski</string>
-    <string name="color_red">Czerwony</string>
-    <string name="color_yellow">Żółty</string>
+    <string name="color_violet_catnip">Kocimiętkowy fiolet</string>
+    <string name="color_orange_salmon">Łososiowy</string>
+    <string name="color_grey_mousey">Mysi szary</string>
+    <string name="color_red_laser">Laserowa czerwień</string>
+    <string name="color_brown_cartoon">Kartonowy brąz</string>
+    <string name="color_white_milky">Mleczna biel</string>
 
     <string name="filter_no">Brak</string>
     <string name="filter_blur">Rozmycie</string>
